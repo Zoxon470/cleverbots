@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  backend:
+    container_name: cleverbots-backend
+    build:
+      context: .
+      dockerfile: docker/django/Dockerfile-dev
+    command: ./docker/django/start-dev.sh
+    volumes:
+    - .:/app
+    env_file:
+    - .env.local
+    ports:
+    - "8000:8000"
+    depends_on:
+    - db
+
+  db:
+    container_name: cleverbots-db
+    image: postgres:10.1-alpine
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env.local
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+
+volumes:
+  pgdata:
