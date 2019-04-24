@@ -1,20 +1,26 @@
 from rest_framework import serializers
-from .models import File
+
+from .models import Image
 
 
-class FileUploadSerializer(serializers.ModelSerializer):
-    place = serializers.CharField(required=True)
-    img = serializers.FileField(required=True)
+class ImageUploadSerializer(serializers.ModelSerializer):
+    place = serializers.CharField()
+    img = serializers.ImageField()
 
     class Meta:
-        model = File
+        model = Image
         fields = ('place', 'img')
 
 
-class FileFilterSerializer(serializers.ModelSerializer):
-    date = serializers.DateTimeField(required=True)
-    img = serializers.FileField(required=True)
+class ImageFilterSerializer(serializers.ModelSerializer):
+    date = serializers.DateTimeField(required=False)
+    size = serializers.IntegerField(required=False)
+    place = serializers.CharField(required=False)
+    path_to_img = serializers.SerializerMethodField()
 
     class Meta:
-        model = File
-        fields = ('date', 'img')
+        model = Image
+        fields = ('date', 'size', 'place', 'path_to_img')
+
+    def get_path_to_img(self, obj):
+        return obj.img.path

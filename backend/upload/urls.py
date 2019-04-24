@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import FileUploadView, FileFilterView
+from .views import ImageUploadView, ImageFilterView
 
 urlpatterns = [
-    path('images', FileFilterView.as_view()),
-    path('images/upload', FileUploadView.as_view())
+    path('photos', ImageFilterView.as_view()),
+    path('photo', ImageUploadView.as_view())
 ]
